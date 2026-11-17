@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#020805">
+
+<title>NFC Hacker System</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #020805;
+  color: #39ff70;
+  font-family: monospace;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: .30;
+  z-index: 0;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  width: 90%;
+  max-width: 430px;
+  padding: 30px 22px;
+  text-align: center;
+  background: rgba(2,12,6,.95);
+  border: 1px solid #19a34a;
+  border-radius: 12px;
+  box-shadow: 0 0 30px #087c32;
+}
+
+h1 {
+  font-size: 28px;
+  text-shadow: 0 0 15px #39ff70;
+  letter-spacing: 3px;
+}
+
+.subtitle {
+  font-size: 12px;
+  color: #8bffa9;
+}
+
+.status {
+  text-align: left;
+  color: #8bffa9;
+  line-height: 2;
+  margin: 28px 0;
+  font-size: 12px;
+}
+
+.welcome {
+  margin: 25px 0;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px #39ff70;
+}
+
+.button {
+  display: block;
+  padding: 16px;
+  background: #13a344;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 6px;
+  box-shadow: 0 0 18px #13a344;
+  transition: .3s;
+}
+
+.button:hover {
+  background: #39ff70;
+  color: black;
+}
+
+footer {
+  margin-top: 28px;
+  color: #38a85b;
+  font-size: 10px;
+  line-height: 1.8;
+}
+
+.blink {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="container">
+
+<h1>NFC SYSTEM</h1>
+
+<p class="subtitle">[ ACCESS GRANTED ]</p>
+
+<div class="status">
+[ OK ] NFC DETECTED<br>
+[ OK ] CONNECTION ESTABLISHED<br>
+[ OK ] SECURITY CHECK COMPLETE<br>
+[ OK ] SYSTEM READY
+</div>
+
+<div class="welcome">
+WELCOME TO THE SYSTEM<span class="blink">_</span>
+</div>
+
+<p>YOUR DESTINATION IS READY</p>
+
+<a class="button"
+href="https://youtu.be/7wRHBLwpASw?si=SyVgelHWDUbM3ERl"
+target="_blank"
+rel="noopener noreferrer">
+▶ ENTER YOUTUBE
+</a>
+
+<footer>
+MOMENTUM NFC PROJECT<br>
+SYSTEM VERSION 1.0<br>
+SECURE CONNECTION
+</footer>
+
+</div>
+
+<script>
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+const fontSize = 14;
+let columns = [];
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  columns = Array(
+    Math.ceil(canvas.width / fontSize)
+  ).fill(1);
+}
+
+function draw() {
+  ctx.fillStyle = "rgba(0,5,2,0.08)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "#39ff70";
+  ctx.font = fontSize + "px monospace";
+
+  columns.forEach((y, i) => {
+    const char = String.fromCharCode(
+      0x30A0 + Math.random() * 96
+    );
+
+    ctx.fillText(char, i * fontSize, y * fontSize);
+
+    if (
+      y * fontSize > canvas.height &&
+      Math.random() > 0.975
+    ) {
+      columns[i] = 0;
+    }
+
+    columns[i]++;
+  });
+
+  requestAnimationFrame(draw);
+}
+
+window.addEventListener("resize", resize);
+
+resize();
+draw();
+</script>
+
+</body>
+</html>
